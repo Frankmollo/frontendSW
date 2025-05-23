@@ -144,7 +144,7 @@ const RolesList = ({ permisos = [] }) => {
         <TableBody>
           {roles.map((rol) => (
             <TableRow key={rol.id}>
-              <TableCell>{rol.nombre}</TableCell>
+              <TableCell>{rol.nombre.toLowerCase() === 'estudiante' ? 'Alumno' : rol.nombre}</TableCell>
               <TableCell align="right">
                 <Button size="small" variant="text" color="primary" onClick={() => handleOpenPermisos(rol)}>
                   Permisos
@@ -175,7 +175,7 @@ const RolesList = ({ permisos = [] }) => {
         </DialogActions>
       </Dialog>
       <Dialog open={permisosModalOpen} onClose={() => setPermisosModalOpen(false)} maxWidth="xs" fullWidth>
-        <DialogTitle>Permisos de {rolSeleccionado?.nombre}</DialogTitle>
+        <DialogTitle>Permisos de {rolSeleccionado ? (rolSeleccionado.nombre && rolSeleccionado.nombre.toLowerCase() === 'estudiante' ? 'Alumno' : rolSeleccionado.nombre) : ''}</DialogTitle>
         <DialogContent>
           {permisosLoading ? (
             <CircularProgress />

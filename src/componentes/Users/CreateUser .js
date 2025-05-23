@@ -185,7 +185,7 @@ const CreateUser = () => {
               variant="outlined"
             >
               {roles.map((rol) => (
-                <MenuItem key={rol.id} value={rol.id}>{rol.nombre}</MenuItem>
+                <MenuItem key={rol.id} value={rol.id}>{rol.nombre.toLowerCase() === 'estudiante' ? 'Alumno' : rol.nombre}</MenuItem>
               ))}
             </TextField>
             <Button

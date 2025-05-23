@@ -51,17 +51,19 @@ const EditUser = () => {
     e.preventDefault();
     setError(null);
     setValidationErrors([]);
-    if (!password || !passwordConfirmation) {
-      setError('La contraseña y la confirmación son obligatorias.');
-      return;
-    }
-    if (password.length < 8) {
-      setError('La contraseña debe tener al menos 8 caracteres.');
-      return;
-    }
-    if (password !== passwordConfirmation) {
-      setError('La contraseña y la confirmación no coinciden.');
-      return;
+    if (password || passwordConfirmation) {
+      if (!password || !passwordConfirmation) {
+        setError('La contraseña y la confirmación son obligatorias si deseas cambiar la contraseña.');
+        return;
+      }
+      if (password.length < 8) {
+        setError('La contraseña debe tener al menos 8 caracteres.');
+        return;
+      }
+      if (password !== passwordConfirmation) {
+        setError('La contraseña y la confirmación no coinciden.');
+        return;
+      }
     }
     const data = {
       nombre: user.nombre,
@@ -69,9 +71,11 @@ const EditUser = () => {
       fecha_nacimiento: user.fecha_nacimiento,
       correo: user.correo,
       rol_id: user.rol_id,
-      password: password,
-      password_confirmation: passwordConfirmation,
     };
+    if (password && passwordConfirmation) {
+      data.password = password;
+      data.password_confirmation = passwordConfirmation;
+    }
     try {
       await updateUser(id, data);
       navigate('/dashboard');
@@ -188,7 +192,7 @@ const EditUser = () => {
             variant="outlined"
           >
             {roles.map((rol) => (
-              <MenuItem key={rol.id} value={rol.id}>{rol.nombre}</MenuItem>
+              <MenuItem key={rol.id} value={rol.id}>{rol.nombre.toLowerCase() === 'estudiante' ? 'Alumno' : rol.nombre}</MenuItem>
             ))}
           </TextField>
           <TextField
